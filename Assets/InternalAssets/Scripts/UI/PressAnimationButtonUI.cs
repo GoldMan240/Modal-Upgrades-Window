@@ -5,17 +5,19 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class UpgradeButtonUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class PressAnimationButtonUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     private const int MULTIPLIER_TO_CONVERT = -1;
 
     [SerializeField] private RectTransform contentContainer;
 
+    private Button button;
     private float originalTopOffset;
     private float originalBottomOffset;
 
     private void Awake()
     {
+        button = GetComponent<Button>();
         originalTopOffset = contentContainer.offsetMax.y;
         originalBottomOffset = contentContainer.offsetMin.y;
     }
@@ -35,7 +37,10 @@ public class UpgradeButtonUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private void ChangeOffset(float topOffset, float bottomOffset)
     {
-        contentContainer.offsetMax = new Vector2(contentContainer.offsetMax.x, topOffset);
-        contentContainer.offsetMin = new Vector2(contentContainer.offsetMin.x, bottomOffset);
+        if (button.interactable)
+        {
+            contentContainer.offsetMax = new Vector2(contentContainer.offsetMax.x, topOffset);
+            contentContainer.offsetMin = new Vector2(contentContainer.offsetMin.x, bottomOffset);
+        }
     }
 }
